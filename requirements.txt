@@ -1,0 +1,9 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+opencv-python-headless==4.10.0.84
+pytesseract==0.3.13
+faster-whisper==1.1.1
+deep-translator==1.11.4
+gTTS==2.5.4
+pydub==0.25.1

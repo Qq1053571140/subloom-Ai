@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08111f">
+<title>SubLoom AI — 视频字幕翻译与配音</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+:root{
+  --bg:#07101d;--bg2:#0a1526;--card:#0d1a2d;--card2:#102039;--line:#203654;
+  --text:#f5f8ff;--muted:#9fb0c8;--accent:#7b8cff;--cyan:#44d7ff;--green:#50e6a8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:
+radial-gradient(1000px 500px at 15% -10%,rgba(75,104,255,.22),transparent 65%),
+radial-gradient(900px 500px at 90% 5%,rgba(68,215,255,.14),transparent 60%),
+linear-gradient(180deg,var(--bg),#060b14 70%);
+color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC",sans-serif}
+a{color:inherit;text-decoration:none}.wrap{max-width:1180px;margin:auto;padding:0 18px}
+nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(18px);background:rgba(7,16,29,.72);border-bottom:1px solid rgba(255,255,255,.06)}
+.navin{height:68px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-weight:850;font-size:20px;letter-spacing:.2px}.brand i{font-style:normal;color:var(--cyan)}
+.navlinks{display:flex;gap:20px;color:#b9c6d8;font-size:14px}.navcta{padding:10px 15px;border-radius:11px;background:#fff;color:#07101d;font-weight:750}
+.hero{padding:86px 0 38px;text-align:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 10px;border:1px solid #294466;border-radius:999px;background:rgba(16,32,57,.7);color:#bed2eb;font-size:12px}
+.hero h1{max-width:900px;margin:18px auto 15px;font-size:clamp(38px,7vw,76px);line-height:1.03;letter-spacing:-2.8px}
+.grad{background:linear-gradient(90deg,#fff,#9dc8ff 45%,#8af0ff);-webkit-background-clip:text;color:transparent}
+.hero p{max-width:760px;margin:auto;color:var(--muted);font-size:18px;line-height:1.7}
+.heroBtns{display:flex;justify-content:center;gap:10px;margin-top:25px;flex-wrap:wrap}
+.btn{appearance:none;border:0;border-radius:13px;padding:13px 17px;font-size:15px;font-weight:760;cursor:pointer;background:#172842;color:#fff}
+.btn.primary{background:linear-gradient(135deg,var(--accent),#5abfff);box-shadow:0 12px 30px rgba(80,122,255,.24)}
+.btn.ghost{border:1px solid #2a4364;background:rgba(12,26,45,.7)}button:disabled{opacity:.45;cursor:not-allowed}
+.tool{margin-top:34px;background:linear-gradient(180deg,rgba(15,31,54,.97),rgba(10,22,39,.97));border:1px solid #203957;border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.32);overflow:hidden}
+.toolbar{padding:14px 16px;border-bottom:1px solid #1c314b;display:flex;align-items:center;justify-content:space-between;gap:12px}.dots{display:flex;gap:6px}.dot{width:9px;height:9px;border-radius:50%;background:#304761}.dot:nth-child(1){background:#ff6e68}.dot:nth-child(2){background:#ffc65c}.dot:nth-child(3){background:#5bdd87}
+.workspace{display:grid;grid-template-columns:330px 1fr;min-height:560px}
+.side{border-right:1px solid #1c314b;padding:18px;background:rgba(8,19,34,.55)}
+.mode{display:flex;gap:11px;padding:13px;border:1px solid transparent;border-radius:13px;cursor:pointer;margin-bottom:8px}.mode.active{background:#152941;border-color:#2c4d70}.mode:hover{background:#12233a}.modeIcon{width:38px;height:38px;border-radius:10px;background:#1e3552;display:grid;place-items:center;font-size:19px}.mode b{display:block;font-size:14px}.mode span{display:block;color:#93a7c0;font-size:12px;margin-top:3px;line-height:1.4}
+.panel{padding:20px}.drop{border:1.5px dashed #355a80;border-radius:18px;min-height:250px;display:grid;place-items:center;text-align:center;padding:24px;background:linear-gradient(180deg,rgba(25,48,78,.42),rgba(9,22,39,.26));cursor:pointer;transition:.2s}.drop:hover,.drop.drag{border-color:#6ea4ff;background:rgba(26,51,84,.55)}
+.drop input{display:none}.dropIcon{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#5d74ff,#46ccff);display:grid;place-items:center;margin:auto;font-size:28px;box-shadow:0 12px 25px rgba(68,137,255,.25)}
+.drop h3{margin:14px 0 5px}.drop p{margin:0;color:#90a4bc;font-size:13px}
+.videoBox{display:none}.videoBox video{width:100%;max-height:360px;background:#000;border-radius:14px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.field label{display:block;color:#9cafc6;font-size:12px;margin-bottom:6px}.field select,.field input{width:100%;background:#091725;border:1px solid #294462;color:#eaf2ff;border-radius:10px;padding:11px 12px;font-size:14px}
+.full{grid-column:1/-1}.actions{display:flex;gap:10px;align-items:center;margin-top:15px;flex-wrap:wrap}.status{color:#9eb2c9;font-size:12px}
+.progress{height:8px;background:#07111e;border-radius:999px;overflow:hidden;margin-top:12px;border:1px solid #1b3049}.bar{height:100%;width:0;background:linear-gradient(90deg,#6f82ff,#4fd7ff);transition:.25s}
+.result{display:none;margin-top:16px;border:1px solid #23405f;border-radius:14px;padding:14px;background:#0a1828}.result a{display:inline-block;margin-top:10px}
+.section{padding:78px 0}.section h2{font-size:clamp(30px,5vw,48px);margin:0 0 12px;letter-spacing:-1px}.sectionLead{color:var(--muted);max-width:700px;line-height:1.65}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}.card{background:linear-gradient(180deg,#0f1d31,#0b1727);border:1px solid #1e3653;border-radius:18px;padding:18px}.card .ico{width:44px;height:44px;border-radius:12px;background:#152c49;display:grid;place-items:center;font-size:22px}.card h3{margin:15px 0 7px}.card p{color:#93a5bc;line-height:1.6;font-size:14px;margin:0}
+.samples{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:25px}.sample{overflow:hidden;border:1px solid #203a58;background:#0d1a2d;border-radius:18px}.sample video{width:100%;display:block;background:#000;aspect-ratio:16/9}.sampleText{padding:13px 14px}.sampleText b{font-size:14px}.sampleText span{display:block;color:#91a4bb;font-size:12px;margin-top:4px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:25px}.step{border-top:1px solid #33506e;padding-top:14px}.num{color:#6ad6ff;font-weight:800}.step b{display:block;margin:7px 0}.step span{color:#8fa4bc;font-size:13px;line-height:1.5}
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:25px}.price{border:1px solid #25415f;border-radius:18px;padding:19px;background:#0d1a2c}.price.hot{border-color:#7088ff;box-shadow:0 15px 40px rgba(76,104,255,.15)}.price h3{margin:0}.money{font-size:34px;font-weight:850;margin:13px 0}.price ul{padding-left:18px;color:#a4b4c7;line-height:1.9;font-size:13px}
+footer{border-top:1px solid #152a42;padding:30px 0 46px;color:#8296af;font-size:13px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);opacity:0;background:#fff;color:#07101d;padding:10px 14px;border-radius:11px;font-weight:700;z-index:99;transition:.2s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:850px){.workspace{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid #1c314b;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mode{margin:0;display:block}.modeIcon{margin-bottom:8px}.cards,.pricing{grid-template-columns:1fr}.samples{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.navlinks{display:none}}
+@media(max-width:520px){.hero{padding-top:55px}.hero h1{letter-spacing:-1.5px}.hero p{font-size:15px}.tool{border-radius:18px}.side{grid-template-columns:1fr}.mode{display:flex}.modeIcon{margin:0}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="wrap navin"><div class="brand">Sub<i>Loom</i> AI</div><div class="navlinks"><a href="#features">功能</a><a href="#samples">案例</a><a href="#pricing">定价</a></div><a class="navcta" href="#studio">立即处理</a></div></nav>
+
+<main>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow">✦ AI 视频本地化工作台 · Hard-sub OCR + Speech + Dubbing</div>
+  <h1><span class="grad">一条视频，翻译成全世界都能看懂的版本。</span></h1>
+  <p>识别已经烧录进画面的字幕、识别视频语音、自动翻译、覆盖原字幕，并可生成目标语言配音。手机与电脑浏览器都能使用。</p>
+  <div class="heroBtns"><a class="btn primary" href="#studio">上传视频开始</a><a class="btn ghost" href="#samples">查看案例</a></div>
+
+  <div class="tool" id="studio">
+    <div class="toolbar"><div class="dots"><i class="dot"></i><i class="dot"></i><i class="dot"></i></div><div class="small">SubLoom Studio · MVP</div><div class="small">MP4 / MOV / WebM</div></div>
+    <div class="workspace">
+      <aside class="side">
+        <div class="mode active" data-mode="hard"><div class="modeIcon">▣</div><div><b>硬字幕翻译</b><span>识别已烧录字幕，覆盖或另加一行</span></div></div>
+        <div class="mode" data-mode="speech"><div class="modeIcon">◉</div><div><b>语音 → 字幕</b><span>识别视频语音并翻译成目标字幕</span></div></div>
+        <div class="mode" data-mode="dub"><div class="modeIcon">◈</div><div><b>字幕 + 配音替换</b><span>翻译语音和字幕，生成全新配音</span></div></div>
+      </aside>
+      <section class="panel">
+        <label class="drop" id="drop">
+          <input id="file" type="file" accept="video/*,.mp4,.mov,.m4v,.webm">
+          <div><div class="dropIcon">↑</div><h3>上传视频</h3><p>点击选择，或将视频拖到这里。手机端可从相册 / 文件选择。</p><p style="margin-top:7px">建议 MVP 测试 ≤ 5 分钟 / 300MB</p></div>
+        </label>
+
+        <div class="videoBox" id="videoBox">
+          <video id="preview" controls playsinline></video>
+          <div class="formgrid">
+            <div class="field"><label>源语言</label><select id="sourceLang"><option value="auto">自动检测</option><option value="zh-CN">中文</option><option value="en">English</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="fr">Français</option><option value="es">Español</option></select></div>
+            <div class="field"><label>目标语言</label><select id="targetLang"><option value="en">English</option><option value="zh-CN">中文</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="fr">Français</option><option value="es">Español</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option><option value="ar">العربية</option><option value="ru">Русский</option></select></div>
+            <div class="field mode-hard"><label>原字幕处理</label><select id="overlayMode"><option value="cover">覆盖原字幕</option><option value="above">保留原字幕，在上方新增译文</option></select></div>
+            <div class="field mode-hard"><label>字幕扫描区域</label><select id="crop"><option value="0.32">画面底部 32%</option><option value="0.40" selected>画面底部 40%</option><option value="0.48">画面底部 48%</option><option value="0.58">画面底部 58%</option></select></div>
+            <div class="field mode-dub" style="display:none"><label>配音声音</label><select id="voice"><option value="female">自然女声</option><option value="male">自然男声</option></select></div>
+            <div class="field mode-dub" style="display:none"><label>保留原背景声</label><select id="keepBg"><option value="yes">尽量保留音乐/环境声</option><option value="no">完全替换原音轨</option></select></div>
+          </div>
+          <div class="actions"><button id="process" class="btn primary">开始处理</button><button id="reset" class="btn ghost">重新选择</button><span class="status" id="status">准备就绪</span></div>
+          <div class="progress"><div class="bar" id="bar"></div></div>
+          <div class="result" id="result"><b>处理完成</b><div class="small" id="resultNote" style="margin-top:5px">文件已生成。</div><a id="download" class="btn primary" href="#" download>下载成品视频</a><a id="downloadSrt" class="btn ghost" href="#" download style="margin-left:6px">下载字幕 SRT</a></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div></section>
+
+<section class="section" id="features"><div class="wrap">
+  <h2>不是普通字幕工具，是完整的视频本地化流水线</h2>
+  <p class="sectionLead">面向 TikTok、Shorts、Reels、电商素材、短剧切片和跨境内容。核心目标是减少“识别 → 翻译 → 擦字幕 → 配音 → 导出”的重复操作。</p>
+  <div class="cards">
+    <div class="card"><div class="ico">▣</div><h3>硬字幕 OCR</h3><p>直接读取已经烧进画面的中文字幕，自动合并相同字幕并恢复时间轴，不依赖原视频是否有人声。</p></div>
+    <div class="card"><div class="ico">◉</div><h3>多语言语音识别</h3><p>提取视频音轨，识别语音并生成时间轴字幕，再翻译为目标语言。</p></div>
+    <div class="card"><div class="ico">◈</div><h3>AI 配音替换</h3><p>把翻译后的台词合成为新语音，按原时间轴重新铺设，并生成带新字幕的新视频版本。</p></div>
+  </div>
+</div></section>
+
+<section class="section" id="samples"><div class="wrap">
+  <h2>处理案例</h2><p class="sectionLead">下面是项目自带的轻量示例视频，用于上线后的首页展示和流程测试。</p>
+  <div class="samples">
+    <div class="sample"><video controls muted loop playsinline src="/static/samples/demo_hardsub.mp4"></video><div class="sampleText"><b>硬字幕识别案例</b><span>画面已有中文硬字幕 → OCR → 英文译文</span></div></div>
+    <div class="sample"><video controls muted loop playsinline src="/static/samples/demo_localization.mp4"></video><div class="sampleText"><b>多语言本地化案例</b><span>字幕布局与海外短视频风格示意</span></div></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <h2>四步完成</h2>
+  <div class="steps">
+    <div class="step"><div class="num">01</div><b>上传视频</b><span>手机相册、文件或电脑本地视频。</span></div>
+    <div class="step"><div class="num">02</div><b>选择处理模式</b><span>硬字幕、语音字幕或完整配音替换。</span></div>
+    <div class="step"><div class="num">03</div><b>AI 自动处理</b><span>OCR、ASR、翻译、字幕排版和配音。</span></div>
+    <div class="step"><div class="num">04</div><b>下载发布</b><span>输出 MP4 和 SRT，继续发 TikTok 等平台。</span></div>
+  </div>
+</div></section>
+
+<section class="section" id="pricing"><div class="wrap">
+  <h2>以后可以这样商业化</h2><p class="sectionLead">现在代码里没有接支付；下面只是可直接用于后续产品设计的定价框架。</p>
+  <div class="pricing">
+    <div class="price"><h3>Free</h3><div class="money">¥0</div><ul><li>每月 3 个短视频</li><li>720p 输出</li><li>基础 OCR / 字幕翻译</li></ul></div>
+    <div class="price hot"><h3>Creator</h3><div class="money">¥39<small>/月</small></div><ul><li>每月 60 分钟</li><li>1080p 输出</li><li>硬字幕 + 语音 + AI 配音</li><li>优先处理队列</li></ul></div>
+    <div class="price"><h3>Pro</h3><div class="money">¥99<small>/月</small></div><ul><li>每月 240 分钟</li><li>批量处理</li><li>无品牌标记</li><li>商业用途</li></ul></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">SubLoom AI MVP · 建议上线前补充隐私政策、服务条款、版权投诉通道和视频自动删除策略。</div></footer>
+<div class="toast" id="toast"></div>
+<script src="/static/app.js"></script>
+</body></html>
